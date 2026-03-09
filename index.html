@@ -6,6 +6,26 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js"></script>
 
+    <!-- Script de inicialização do Firebase -->
+    <script>
+        console.log('🔍 Verificando Firebase...');
+
+        // Aguardar Firebase carregar com timeout
+        function waitForFirebase(callback, attempt = 0) {
+            if (typeof firebase !== 'undefined') {
+                console.log('✅ Firebase carregado!');
+                callback();
+            } else if (attempt < 50) {
+                setTimeout(() => waitForFirebase(callback, attempt + 1), 100);
+            } else {
+                console.error('❌ Firebase não carregou após 5 segundos');
+            }
+        }
+
+        waitForFirebase(() => {
+            console.log('✅ Iniciando aplicação...');
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Igreja Adventista da Promessa - Cascavel PR</title>
@@ -773,13 +793,19 @@
 
     <!-- SCRIPT COM FIREBASE (CREDENCIAIS JÁ INTEGRADAS) -->
     <script>
-        // ===== VARIÁVEIS GLOBAIS =====
         let db;
         let storage;
 
-        // Aguardar Firebase carregar completamente
-        document.addEventListener('DOMContentLoaded', function () {
-            // ===== FIREBASE CONFIG (SUAS CREDENCIAIS) =====
+        function initializeFirebase() {
+            // Verificar se Firebase carregou
+            if (typeof firebase === 'undefined') {
+                console.error('❌ Firebase ainda não carregou');
+                setTimeout(initializeFirebase, 500);
+                return;
+            }
+
+            console.log('✅ Firebase detectado, inicializando...');
+
             const firebaseConfig = {
                 apiKey: "AIzaSyAo4G7i-X7SeiQlYgZclCJLO6WwbU_J6Hk",
                 authDomain: "igreja-iap.firebaseapp.com",
@@ -790,134 +816,141 @@
                 measurementId: "G-KY1VLV2071"
             };
 
-            // Verificar se Firebase já foi inicializado
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                    console.log('✅ Firebase App inicializado');
+                }
+
+                db = firebase.database();
+                storage = firebase.storage();
+
+                console.log('✅ db e storage prontos!', { db, storage });
+                loadConfigFromFirebase();
+                setupAdminPanel();
+
+            } catch (error) {
+                console.error('❌ Erro ao inicializar Firebase:', error);
             }
+        }
 
-            // Atribuir às variáveis globais
-            db = firebase.database();
-            storage = firebase.storage();
+        const defaultConfig = {
+            whatsapp_number: '45999424023',
+            logo_base64: '',
+            about_image_base64: '',
+            about_text_1: 'A Igreja Adventista da Promessa é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo.',
+            about_text_2: 'Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo.',
+            sunday_service: '19h30',
+            wednesday_service: '19h30',
+            saturday_service: '09h30 / 10h30',
+            church_address: 'Rua Presidente Bernardes, 2476, Centro\nCascavel - Paraná. CEP 85810-130',
+            event1_title: 'Culto Especial de Batismo',
+            event1_desc: 'Celebração para novos membros da nossa família',
+            event1_date: 'Em breve',
+            event2_title: 'Encontro de Casais',
+            event2_desc: 'Fortalecendo famílias através da Palavra',
+            event2_date: 'Mensal',
+            event3_title: 'Reunião de Jovens',
+            event3_desc: 'Comunhão e estudo para a juventude',
+            event3_date: 'Semanal'
+        };
 
-            console.log('✅ Firebase inicializado com sucesso!', { db, storage });
+        let config = { ...defaultConfig };
 
-            const defaultConfig = {
-                whatsapp_number: '45999424023',
-                logo_base64: '',
-                about_image_base64: '',
-                about_text_1: 'A Igreja Adventista da Promessa é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo.',
-                about_text_2: 'Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo.',
-                sunday_service: '19h30',
-                wednesday_service: '19h30',
-                saturday_service: '09h30 / 10h30',
-                church_address: 'Rua Presidente Bernardes, 2476, Centro\nCascavel - Paraná. CEP 85810-130',
-                event1_title: 'Culto Especial de Batismo',
-                event1_desc: 'Celebração para novos membros da nossa família',
-                event1_date: 'Em breve',
-                event2_title: 'Encontro de Casais',
-                event2_desc: 'Fortalecendo famílias através da Palavra',
-                event2_date: 'Mensal',
-                event3_title: 'Reunião de Jovens',
-                event3_desc: 'Comunhão e estudo para a juventude',
-                event3_date: 'Semanal'
-            };
-
-            let config = { ...defaultConfig };
-
-            async function loadConfigFromFirebase() {
-                try {
-                    const snapshot = await db.ref('config').once('value');
-                    if (snapshot.exists()) {
-                        config = { ...defaultConfig, ...snapshot.val() };
-                        applyConfigToDom();
-                    } else {
-                        applyConfigToDom();
-                    }
-                } catch (error) {
-                    console.error('Erro ao carregar config:', error);
+        async function loadConfigFromFirebase() {
+            try {
+                const snapshot = await db.ref('config').once('value');
+                if (snapshot.exists()) {
+                    config = { ...defaultConfig, ...snapshot.val() };
+                    applyConfigToDom();
+                } else {
                     applyConfigToDom();
                 }
+            } catch (error) {
+                console.error('Erro ao carregar config:', error);
+                applyConfigToDom();
+            }
+        }
+
+        async function saveConfigToFirebase() {
+            try {
+                await db.ref('config').set(config);
+                console.log('✅ Config salva no Firebase');
+                return true;
+            } catch (error) {
+                console.error('❌ Erro ao salvar:', error);
+                alert('Erro ao salvar no Firebase: ' + error.message);
+                return false;
+            }
+        }
+
+        async function uploadImageToFirebase(file, path) {
+            try {
+                const fileRef = storage.ref(path + '/' + Date.now() + '_' + file.name);
+                await fileRef.put(file);
+                const url = await fileRef.getDownloadURL();
+                return url;
+            } catch (error) {
+                console.error('Erro ao fazer upload:', error);
+                alert('Erro ao enviar imagem: ' + error.message);
+                return null;
+            }
+        }
+
+        function applyConfigToDom() {
+            // Logo
+            if (config.logo_base64) {
+                document.getElementById('navbar-logo').src = config.logo_base64;
+                document.getElementById('navbar-logo').style.display = 'block';
+                document.getElementById('navbar-logo-placeholder').style.display = 'none';
+                document.getElementById('footer-logo').src = config.logo_base64;
+                document.getElementById('footer-logo').style.display = 'block';
+                document.getElementById('footer-logo-placeholder').style.display = 'none';
             }
 
-            async function saveConfigToFirebase() {
-                try {
-                    await db.ref('config').set(config);
-                    console.log('✅ Config salva no Firebase');
-                    return true;
-                } catch (error) {
-                    console.error('❌ Erro ao salvar:', error);
-                    alert('Erro ao salvar no Firebase');
-                    return false;
-                }
+            // About
+            if (config.about_image_base64) {
+                document.getElementById('about-main-image').src = config.about_image_base64;
+                document.getElementById('about-main-image').style.display = 'block';
+                document.getElementById('about-image-placeholder').style.display = 'none';
             }
+            document.getElementById('about-text-1').textContent = config.about_text_1 || '';
+            document.getElementById('about-text-2').textContent = config.about_text_2 || '';
 
-            async function uploadImageToFirebase(file, path) {
-                try {
-                    const fileRef = storage.ref(path + '/' + Date.now() + '_' + file.name);
-                    await fileRef.put(file);
-                    const url = await fileRef.getDownloadURL();
-                    return url;
-                } catch (error) {
-                    console.error('Erro ao fazer upload:', error);
-                    alert('Erro ao enviar imagem');
-                    return null;
-                }
-            }
+            // Horários
+            document.getElementById('sunday-time').textContent = config.sunday_service || '19h30';
+            document.getElementById('wednesday-time').textContent = config.wednesday_service || '19h30';
+            document.getElementById('saturday-time').textContent = config.saturday_service || '09h30 / 10h30';
+            document.getElementById('sunday-service').textContent = config.sunday_service || '19h30';
+            document.getElementById('wednesday-service').textContent = config.wednesday_service || '19h30';
+            document.getElementById('saturday-service').textContent = config.saturday_service || '09h30 / 10h30';
 
-            function applyConfigToDom() {
-                // Logo
-                if (config.logo_base64) {
-                    document.getElementById('navbar-logo').src = config.logo_base64;
-                    document.getElementById('navbar-logo').style.display = 'block';
-                    document.getElementById('navbar-logo-placeholder').style.display = 'none';
-                    document.getElementById('footer-logo').src = config.logo_base64;
-                    document.getElementById('footer-logo').style.display = 'block';
-                    document.getElementById('footer-logo-placeholder').style.display = 'none';
-                }
+            // Endereço
+            document.getElementById('church-address').textContent = config.church_address || defaultConfig.church_address;
 
-                // About
-                if (config.about_image_base64) {
-                    document.getElementById('about-main-image').src = config.about_image_base64;
-                    document.getElementById('about-main-image').style.display = 'block';
-                    document.getElementById('about-image-placeholder').style.display = 'none';
-                }
-                document.getElementById('about-text-1').textContent = config.about_text_1 || '';
-                document.getElementById('about-text-2').textContent = config.about_text_2 || '';
+            // Eventos
+            document.getElementById('event1-title').textContent = config.event1_title || 'Culto Especial';
+            document.getElementById('event1-desc').textContent = config.event1_desc || '';
+            document.getElementById('event1-date').textContent = config.event1_date || 'Em breve';
 
-                // Horários
-                document.getElementById('sunday-time').textContent = config.sunday_service || '19h30';
-                document.getElementById('wednesday-time').textContent = config.wednesday_service || '19h30';
-                document.getElementById('saturday-time').textContent = config.saturday_service || '09h30 / 10h30';
-                document.getElementById('sunday-service').textContent = config.sunday_service || '19h30';
-                document.getElementById('wednesday-service').textContent = config.wednesday_service || '19h30';
-                document.getElementById('saturday-service').textContent = config.saturday_service || '09h30 / 10h30';
+            document.getElementById('event2-title').textContent = config.event2_title || 'Encontro';
+            document.getElementById('event2-desc').textContent = config.event2_desc || '';
+            document.getElementById('event2-date').textContent = config.event2_date || 'Mensal';
 
-                // Endereço
-                document.getElementById('church-address').textContent = config.church_address || defaultConfig.church_address;
+            document.getElementById('event3-title').textContent = config.event3_title || 'Reunião';
+            document.getElementById('event3-desc').textContent = config.event3_desc || '';
+            document.getElementById('event3-date').textContent = config.event3_date || 'Semanal';
 
-                // Eventos
-                document.getElementById('event1-title').textContent = config.event1_title || 'Culto Especial';
-                document.getElementById('event1-desc').textContent = config.event1_desc || '';
-                document.getElementById('event1-date').textContent = config.event1_date || 'Em breve';
+            // WhatsApp
+            const waNumber = config.whatsapp_number.replace(/\D/g, '');
+            const waUrl = `https://wa.me/${waNumber}?text=Olá`;
+            ['btn-conhecer', 'btn-batizar', 'btn-oracao', 'btn-ministerio', 'btn-whatsapp-main', 'btn-batizar-contact', 'btn-oracao-contact', 'footer-whatsapp', 'floating-whatsapp'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.href = waUrl;
+            });
+        }
 
-                document.getElementById('event2-title').textContent = config.event2_title || 'Encontro';
-                document.getElementById('event2-desc').textContent = config.event2_desc || '';
-                document.getElementById('event2-date').textContent = config.event2_date || 'Mensal';
-
-                document.getElementById('event3-title').textContent = config.event3_title || 'Reunião';
-                document.getElementById('event3-desc').textContent = config.event3_desc || '';
-                document.getElementById('event3-date').textContent = config.event3_date || 'Semanal';
-
-                // WhatsApp
-                const waNumber = config.whatsapp_number.replace(/\D/g, '');
-                const waUrl = `https://wa.me/${waNumber}?text=Olá`;
-                ['btn-conhecer', 'btn-batizar', 'btn-oracao', 'btn-ministerio', 'btn-whatsapp-main', 'btn-batizar-contact', 'btn-oracao-contact', 'footer-whatsapp', 'floating-whatsapp'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.href = waUrl;
-                });
-            }
-
-            // ADMIN PANEL
+        function setupAdminPanel() {
             const adminBtn = document.getElementById('admin-btn');
             const overlay = document.getElementById('admin-modal-overlay');
             const loginSection = document.getElementById('admin-login');
@@ -972,61 +1005,67 @@
 
             // Logo Upload
             let logoFile = null;
-            document.getElementById('logo-upload').addEventListener('change', (e) => {
-                logoFile = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    document.getElementById('logo-preview').innerHTML = `<img src="${event.target.result}" />`;
-                };
-                reader.readAsDataURL(logoFile);
-            });
+            const logoUpload = document.getElementById('logo-upload');
+            if (logoUpload) {
+                logoUpload.addEventListener('change', (e) => {
+                    logoFile = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        document.getElementById('logo-preview').innerHTML = `<img src="${event.target.result}" />`;
+                    };
+                    reader.readAsDataURL(logoFile);
+                });
 
-            document.getElementById('logo-upload-btn').addEventListener('click', async () => {
-                if (!logoFile) {
-                    alert('Selecione uma imagem');
-                    return;
-                }
-                const btn = document.getElementById('logo-upload-btn');
-                btn.disabled = true;
-                btn.textContent = 'Enviando...';
-
-                const url = await uploadImageToFirebase(logoFile, 'logos');
-                if (url) {
-                    config.logo_base64 = url;
-                    if (await saveConfigToFirebase()) {
-                        applyConfigToDom();
-                        alert('✅ Logo salva com sucesso!');
+                document.getElementById('logo-upload-btn').addEventListener('click', async () => {
+                    if (!logoFile) {
+                        alert('Selecione uma imagem');
+                        return;
                     }
-                }
-                btn.disabled = false;
-                btn.textContent = 'Salvar Logo no Firebase';
-            });
+                    const btn = document.getElementById('logo-upload-btn');
+                    btn.disabled = true;
+                    btn.textContent = 'Enviando...';
+
+                    const url = await uploadImageToFirebase(logoFile, 'logos');
+                    if (url) {
+                        config.logo_base64 = url;
+                        if (await saveConfigToFirebase()) {
+                            applyConfigToDom();
+                            alert('✅ Logo salva com sucesso!');
+                        }
+                    }
+                    btn.disabled = false;
+                    btn.textContent = 'Salvar Logo no Firebase';
+                });
+            }
 
             // About Image Upload
             let aboutFile = null;
-            document.getElementById('about-image-upload').addEventListener('change', (e) => {
-                aboutFile = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    document.getElementById('about-img-preview').innerHTML = `<img src="${event.target.result}" />`;
-                };
-                reader.readAsDataURL(aboutFile);
-            });
+            const aboutUpload = document.getElementById('about-image-upload');
+            if (aboutUpload) {
+                aboutUpload.addEventListener('change', (e) => {
+                    aboutFile = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        document.getElementById('about-img-preview').innerHTML = `<img src="${event.target.result}" />`;
+                    };
+                    reader.readAsDataURL(aboutFile);
+                });
 
-            document.getElementById('about-image-upload-btn').addEventListener('click', async () => {
-                if (!aboutFile) {
-                    alert('Selecione uma imagem');
-                    return;
-                }
-                const url = await uploadImageToFirebase(aboutFile, 'about');
-                if (url) {
-                    config.about_image_base64 = url;
-                    if (await saveConfigToFirebase()) {
-                        applyConfigToDom();
-                        alert('✅ Imagem "Quem Somos" salva!');
+                document.getElementById('about-image-upload-btn').addEventListener('click', async () => {
+                    if (!aboutFile) {
+                        alert('Selecione uma imagem');
+                        return;
                     }
-                }
-            });
+                    const url = await uploadImageToFirebase(aboutFile, 'about');
+                    if (url) {
+                        config.about_image_base64 = url;
+                        if (await saveConfigToFirebase()) {
+                            applyConfigToDom();
+                            alert('✅ Imagem "Quem Somos" salva!');
+                        }
+                    }
+                });
+            }
 
             // Save All
             document.getElementById('admin-save-btn').addEventListener('click', async () => {
@@ -1086,10 +1125,14 @@
                     panelSection.style.display = 'none';
                 }
             });
+        }
 
-            // Carregar config ao iniciar
-            loadConfigFromFirebase();
-        });
+        // Iniciar tudo quando o DOM estiver pronto
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeFirebase);
+        } else {
+            initializeFirebase();
+        }
     </script>
 </body>
 </html>

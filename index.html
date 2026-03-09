@@ -795,9 +795,10 @@
     <script>
         let db;
         let storage;
+        let cachedConfig = null; // Cache de configuração
+        let configListener = null; // Listener para atualizações em tempo real
 
         function initializeFirebase() {
-            // Verificar se Firebase carregou
             if (typeof firebase === 'undefined') {
                 console.error('❌ Firebase ainda não carregou');
                 setTimeout(initializeFirebase, 500);
@@ -857,15 +858,49 @@
 
         let config = { ...defaultConfig };
 
-        async function loadConfigFromFirebase() {
-            try {
-                const snapshot = await db.ref('config').once('value');
+        // ===== MELHORIA 1: Cache de imagens (não recarrega toda vez) =====
+        function getConfigFromCache() {
+            return cachedConfig || JSON.parse(localStorage.getItem('igrejaiap_config') || 'null');
+        }
+
+        function saveConfigToCache(cfg) {
+            cachedConfig = cfg;
+            localStorage.setItem('igrejaiap_config', JSON.stringify(cfg));
+        }
+
+        // ===== MELHORIA 4: Listener em tempo real =====
+        function setupRealtimeListener() {
+            if (configListener) {
+                configListener(); // Remover listener anterior
+            }
+
+            configListener = db.ref('config').on('value', (snapshot) => {
                 if (snapshot.exists()) {
                     config = { ...defaultConfig, ...snapshot.val() };
+                    saveConfigToCache(config);
                     applyConfigToDom();
-                } else {
-                    applyConfigToDom();
+                    console.log('✅ Configuração atualizada em tempo real para todos');
                 }
+            }, (error) => {
+                console.error('Erro ao ouvir mudanças:', error);
+            });
+        }
+
+        async function loadConfigFromFirebase() {
+            try {
+                // Primeiro, tentar carregar do cache
+                const cached = getConfigFromCache();
+                if (cached) {
+                    config = { ...defaultConfig, ...cached };
+                    applyConfigToDom();
+                    console.log('✅ Configuração carregada do cache');
+                } else {
+                    console.log('ℹ️ Sem cache, carregando do Firebase...');
+                }
+
+                // Depois, configurar listener para atualizações em tempo real
+                setupRealtimeListener();
+
             } catch (error) {
                 console.error('Erro ao carregar config:', error);
                 applyConfigToDom();
@@ -875,6 +910,7 @@
         async function saveConfigToFirebase() {
             try {
                 await db.ref('config').set(config);
+                saveConfigToCache(config);
                 console.log('✅ Config salva no Firebase');
                 return true;
             } catch (error) {
@@ -941,12 +977,34 @@
             document.getElementById('event3-desc').textContent = config.event3_desc || '';
             document.getElementById('event3-date').textContent = config.event3_date || 'Semanal';
 
-            // WhatsApp
-            const waNumber = config.whatsapp_number.replace(/\D/g, '');
-            const waUrl = `https://wa.me/${waNumber}?text=Olá`;
-            ['btn-conhecer', 'btn-batizar', 'btn-oracao', 'btn-ministerio', 'btn-whatsapp-main', 'btn-batizar-contact', 'btn-oracao-contact', 'footer-whatsapp', 'floating-whatsapp'].forEach(id => {
+            // ===== CORREÇÃO 2: WhatsApp com mensagens personalizadas =====
+            updateWhatsAppLinks();
+        }
+
+        // ===== CORREÇÃO 2: Função para atualizar links do WhatsApp =====
+        function updateWhatsAppLinks() {
+            const safeNumber = config.whatsapp_number.replace(/\D/g, '');
+
+            function getWhatsAppUrl(number, message = '') {
+                const encodedMessage = encodeURIComponent(message);
+                return `https://wa.me/${number}${message ? '?text=' + encodedMessage : ''}`;
+            }
+
+            const map = [
+                ['btn-conhecer', getWhatsAppUrl(safeNumber, 'Olá! Gostaria de conhecer a Igreja Adventista da Promessa.')],
+                ['btn-batizar', getWhatsAppUrl(safeNumber, 'Olá! Tenho interesse em me batizar.')],
+                ['btn-oracao', getWhatsAppUrl(safeNumber, 'Olá! Preciso de oração.')],
+                ['btn-ministerio', getWhatsAppUrl(safeNumber, 'Olá! Gostaria de participar de um ministério.')],
+                ['btn-whatsapp-main', getWhatsAppUrl(safeNumber, 'Olá! Vim pelo site da igreja.')],
+                ['btn-batizar-contact', getWhatsAppUrl(safeNumber, 'Olá! Tenho interesse em me batizar.')],
+                ['btn-oracao-contact', getWhatsAppUrl(safeNumber, 'Olá! Preciso de oração.')],
+                ['footer-whatsapp', getWhatsAppUrl(safeNumber)],
+                ['floating-whatsapp', getWhatsAppUrl(safeNumber, 'Olá! Vim pelo site da igreja.')]
+            ];
+
+            map.forEach(([id, url]) => {
                 const el = document.getElementById(id);
-                if (el) el.href = waUrl;
+                if (el) el.href = url;
             });
         }
 
@@ -971,6 +1029,13 @@
                 loginSection.style.display = '';
                 panelSection.style.display = 'none';
                 passwordInput.value = '';
+            });
+
+            // ===== CORREÇÃO 3: Enter key para login =====
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loginBtn.click();
+                }
             });
 
             loginBtn.addEventListener('click', () => {
@@ -1011,6 +1076,7 @@
                     logoFile = e.target.files[0];
                     const reader = new FileReader();
                     reader.onload = (event) => {
+                        // ===== MELHORIA 2: Pré-visualização da imagem =====
                         document.getElementById('logo-preview').innerHTML = `<img src="${event.target.result}" />`;
                     };
                     reader.readAsDataURL(logoFile);
@@ -1030,6 +1096,7 @@
                         config.logo_base64 = url;
                         if (await saveConfigToFirebase()) {
                             applyConfigToDom();
+                            // ===== CORREÇÃO 1: Fechar painel após salvar =====
                             alert('✅ Logo salva com sucesso!');
                         }
                     }
@@ -1046,6 +1113,7 @@
                     aboutFile = e.target.files[0];
                     const reader = new FileReader();
                     reader.onload = (event) => {
+                        // ===== MELHORIA 2: Pré-visualização da imagem =====
                         document.getElementById('about-img-preview').innerHTML = `<img src="${event.target.result}" />`;
                     };
                     reader.readAsDataURL(aboutFile);
@@ -1061,6 +1129,7 @@
                         config.about_image_base64 = url;
                         if (await saveConfigToFirebase()) {
                             applyConfigToDom();
+                            // ===== CORREÇÃO 1: Fechar painel após salvar =====
                             alert('✅ Imagem "Quem Somos" salva!');
                         }
                     }
@@ -1087,6 +1156,13 @@
                 if (await saveConfigToFirebase()) {
                     applyConfigToDom();
                     alert('✅ Tudo salvo com sucesso!');
+                    // ===== CORREÇÃO 1: Fechar painel após salvar =====
+                    setTimeout(() => {
+                        overlay.classList.remove('open');
+                        loginSection.style.display = '';
+                        panelSection.style.display = 'none';
+                        passwordInput.value = '';
+                    }, 500);
                 }
             });
 

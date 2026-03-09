@@ -3,75 +3,13 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Igreja Adventista da Promessa - Cascavel PR</title>
   
-  <!-- SEO: Títulos, Descrição e Keywords -->
-  <title>Igreja Adventista da Promessa - Cascavel PR | Cultos, Eventos e Ministérios</title>
-  <meta name="description" content="Igreja Adventista da Promessa em Cascavel. Venha participar de nossos cultos, conheça nossos ministérios, batismo e comunidade de fé. Sempre aberta para você.">
-  <meta name="keywords" content="Igreja Adventista, Cascavel, cultos, batismo, ministérios, comunidade, evangelização, fé, Jesus">
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Igreja Adventista da Promessa em Cascavel. Venha participar de nossos cultos, conheça nossos ministérios, batismo e comunidade de fé.">
+  <meta name="keywords" content="Igreja Adventista, Cascavel, cultos, batismo, ministérios">
   <meta name="author" content="Igreja Adventista da Promessa">
   <meta name="robots" content="index, follow">
-  <meta name="language" content="pt-BR">
-  <meta name="revisit-after" content="7 days">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Igreja Adventista da Promessa - Cascavel PR">
-  <meta property="og:description" content="Comunidade de fé acolhedora em Cascavel. Cultos, ministérios, batismo e eventos especiais.">
-  <meta property="og:url" content="https://www.suaigreja.com.br">
-  <meta name="og:image" content="" id="og-image-meta">
-  <meta property="og:locale" content="pt_BR">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Igreja Adventista da Promessa">
-  <meta name="twitter:description" content="Comunidade de fé em Cascavel PR">
-
-  <!-- JSON-LD Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Igreja Adventista da Promessa",
-    "url": "https://www.suaigreja.com.br",
-    "description": "Comunidade adventista de fé em Cascavel, Paraná",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Rua Presidente Bernardes, 2476",
-      "addressLocality": "Cascavel",
-      "addressRegion": "PR",
-      "postalCode": "85810-130",
-      "addressCountry": "BR"
-    },
-    "contact": {
-      "@type": "ContactPoint",
-      "contactType": "Church",
-      "telephone": "+55-45-99942-4023"
-    }
-  }
-  </script>
-
-  <!-- Local Business Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Igreja Adventista da Promessa",
-    "description": "Igreja Adventista acolhedora em Cascavel com ministérios diversos e cultos regulares",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Rua Presidente Bernardes, 2476, Centro",
-      "addressLocality": "Cascavel",
-      "addressRegion": "PR",
-      "postalCode": "85810-130",
-      "addressCountry": "BR"
-    },
-    "telephone": "+55-45-99942-4023",
-    "priceRange": "Gratuito"
-  }
-  </script>
-
-  <!-- Content-Security-Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline' https://maps.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://wa.me https://maps.app.goo.gl;">
 
   <!-- Fonts and Tailwind -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,99 +17,92 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js"></script>
+
   <style>
     :root {
       --primary-blue: #003366;
       --secondary-gold: #D4A84B;
       --light-cream: #FDF8F3;
-      --warm-white: #FEFEFE;
-      --text-dark: #1F2937;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
+    html { 
+      scroll-behavior: smooth;
+      overflow-y: scroll;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .font-display { font-family: 'Playfair Display', serif; }
     .bg-primary { background-color: var(--primary-blue); }
     .bg-secondary { background-color: var(--secondary-gold); }
     .bg-cream { background-color: var(--light-cream); }
     .text-primary { color: var(--primary-blue); }
     .text-secondary { color: var(--secondary-gold); }
-    .border-primary { border-color: var(--primary-blue); }
-    .border-secondary { border-color: var(--secondary-gold); }
 
-    .hero-gradient { background: linear-gradient(135deg, rgba(0,51,102,0.95) 0%, rgba(0,51,102,0.85) 50%, rgba(212,168,75,0.3) 100%); }
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(0,51,102,0.95) 0%, rgba(0,51,102,0.85) 50%, rgba(212,168,75,0.3) 100%);
+    }
+
     .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,51,102,0.15); }
 
     .btn-primary { background-color: var(--secondary-gold); color: var(--primary-blue); transition: all 0.3s ease; }
-    .btn-primary:hover { background-color: #C49A3D; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,168,75,0.4); }
+    .btn-primary:hover { background-color: #C49A3D; transform: translateY(-2px); }
+
     .btn-secondary { background-color: transparent; border: 2px solid var(--secondary-gold); color: var(--secondary-gold); transition: all 0.3s ease; }
     .btn-secondary:hover { background-color: var(--secondary-gold); color: var(--primary-blue); }
-    .btn-whatsapp { background-color: #25D366; color: white; transition: all 0.3s ease; }
-    .btn-whatsapp:hover { background-color: #20BA5A; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,0.4); }
 
-    .section-divider { height: 4px; background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-gold) 50%, var(--primary-blue) 100%); border-radius: 2px; }
+    .btn-whatsapp { background-color: #25D366; color: white; transition: all 0.3s ease; }
+    .btn-whatsapp:hover { background-color: #20BA5A; }
+
+    .section-divider { height: 4px; background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-gold) 50%, var(--primary-blue) 100%); }
 
     .mobile-menu { transform: translateX(-100%); transition: transform 0.3s ease; }
     .mobile-menu.open { transform: translateX(0); }
 
-    .nav-link { position: relative; }
-    .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: var(--secondary-gold); transition: width 0.3s ease; }
-    .nav-link:hover::after { width: 100%; }
-
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in-up { animation: fadeInUp 0.8s ease forwards; }
-    .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; } .delay-400 { animation-delay: 0.4s; }
-
-    .skip-link { position: absolute; left: -999px; top: -999px; background: #fff; color: #000; padding: 8px 12px; z-index: 9999; border-radius: 4px; }
-    .skip-link:focus { left: 12px; top: 12px; }
-
     .modal-overlay { background: rgba(0,0,0,0.6); position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 60; }
     .modal-overlay.open { display: flex; }
     .modal { background: white; border-radius: 12px; max-width: 720px; width: 95%; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-    .modal h3 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 600; }
-    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-    .field label { font-size: 0.875rem; font-weight: 500; }
-    .field input, .field textarea { border: 1px solid #e5e7eb; padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; }
-    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
-    .modal-actions button { padding: 10px 16px; border-radius: 6px; font-size: 0.875rem; white-space: nowrap; }
 
-    .logo-preview { width: 120px; height: 120px; border: 2px dashed #d1d5db; border-radius: 8px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; margin-top: 8px; overflow: hidden; }
-    .logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .logo-placeholder { text-align: center; color: #9ca3af; font-size: 0.75rem; }
+    .logo-preview, .img-preview { width: 120px; height: 120px; border: 2px dashed #d1d5db; border-radius: 8px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; margin-top: 8px; overflow: hidden; }
+    .logo-preview img, .img-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-    #btn-ministerio-container { display: flex; justify-content: center; width: 100%; }
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    .img-preview { width: 150px; height: 150px; border: 2px dashed #d1d5db; border-radius: 8px; display: flex; align-items: center; justify-content: center; background-color: #f9fafb; margin-top: 8px; overflow: hidden; }
-    .img-preview img { max-width: 100%; max-height: 100%; object-fit: cover; }
+    section { contain: layout style paint; }
 
-    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; } }
-
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; } }
   </style>
 
   <script>
     tailwind.config = { theme: { extend: { colors: { 'church-blue': '#003366', 'church-gold': '#D4A84B', 'church-cream': '#FDF8F3', } } } }
   </script>
-
-  <script src="/_sdk/element_sdk.js" defer></script>
-  <script src="/_sdk/data_sdk.js" defer></script>
  </head>
- <body class="h-full bg-white">
-  <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
 
+ <body class="h-full bg-white">
   <div id="app-wrapper" class="w-full h-full overflow-auto">
+
    <!-- Navigation -->
-   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-primary shadow-lg transition-all duration-300" role="navigation" aria-label="Main Navigation">
+   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-primary shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="flex justify-between items-center h-16 md:h-20">
       <a href="#home" class="flex items-center space-x-3">
-       <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center overflow-hidden" aria-hidden="true">
+       <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
         <img id="navbar-logo" src="" alt="Logo" style="display:none; width:100%; height:100%; object-fit:contain;">
         <span id="navbar-logo-placeholder" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
-         <svg viewBox="0 0 100 100" class="w-8 h-8 md:w-10 md:h-10" role="img" aria-hidden="true" focusable="false">
+         <svg viewBox="0 0 100 100" class="w-8 h-8 md:w-10 md:h-10">
           <circle cx="50" cy="50" r="45" fill="#003D82" />
           <path d="M 50 25 Q 40 35 40 45 Q 40 60 50 70 Q 60 60 60 45 Q 60 35 50 25 Z" fill="white" opacity="0.9" />
-          <path d="M 50 30 Q 45 37 45 45 Q 45 57 50 65 Q 55 57 55 45 Q 55 37 50 30 Z" fill="#003D82" opacity="0.7" />
          </svg>
         </span>
        </div>
@@ -181,223 +112,117 @@
        </div>
       </a>
 
-      <div class="hidden md:flex items-center space-x-8" id="desktop-menu">
-       <a href="#home" class="nav-link text-white hover:text-secondary transition-colors font-medium">Home</a>
-       <a href="#sobre" class="nav-link text-white hover:text-secondary transition-colors font-medium">Sobre</a>
-       <a href="#ministerios" class="nav-link text-white hover:text-secondary transition-colors font-medium">Ministérios</a>
-       <a href="#agenda" class="nav-link text-white hover:text-secondary transition-colors font-medium">Agenda</a>
-       <a href="#contato" class="nav-link text-white hover:text-secondary transition-colors font-medium">Contato</a>
+      <div class="hidden md:flex items-center space-x-8">
+       <a href="#home" class="text-white hover:text-secondary transition-colors font-medium">Home</a>
+       <a href="#sobre" class="text-white hover:text-secondary transition-colors font-medium">Sobre</a>
+       <a href="#ministerios" class="text-white hover:text-secondary transition-colors font-medium">Ministérios</a>
+       <a href="#agenda" class="text-white hover:text-secondary transition-colors font-medium">Agenda</a>
+       <a href="#contato" class="text-white hover:text-secondary transition-colors font-medium">Contato</a>
       </div>
 
-      <button id="mobile-menu-btn" class="md:hidden text-white p-2" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false">
-       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
        </svg>
       </button>
      </div>
     </div>
 
-    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-64 h-full bg-primary shadow-2xl md:hidden" aria-hidden="true" role="menu" tabindex="-1">
-     <div class="p-6">
-      <button id="close-menu-btn" class="absolute top-4 right-4 text-white p-2" aria-label="Fechar menu">
-       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-       </svg>
-      </button>
-      <div class="mt-8 space-y-4">
-       <a href="#home" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Home</a>
-       <a href="#sobre" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Sobre</a>
-       <a href="#ministerios" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Ministérios</a>
-       <a href="#agenda" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Agenda</a>
-       <a href="#contato" class="block text-white hover:text-secondary py-3 text-lg font-medium">Contato</a>
-      </div>
+    <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-64 h-full bg-primary shadow-2xl md:hidden">
+     <button id="close-menu-btn" class="absolute top-4 right-4 text-white p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+     </button>
+     <div class="mt-8 space-y-4 p-6">
+      <a href="#home" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Home</a>
+      <a href="#sobre" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Sobre</a>
+      <a href="#ministerios" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Ministérios</a>
+      <a href="#agenda" class="block text-white hover:text-secondary py-3 text-lg font-medium border-b border-white/20">Agenda</a>
+      <a href="#contato" class="block text-white hover:text-secondary py-3 text-lg font-medium">Contato</a>
      </div>
     </div>
    </nav>
 
-   <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" aria-hidden="true"></div>
+   <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
    <!-- Hero Section -->
-   <main id="main-content" aria-label="Conteúdo principal">
    <section id="home" class="relative min-h-screen flex items-center justify-center pt-16 md:pt-20">
     <div class="absolute inset-0 bg-primary">
-     <div class="absolute inset-0 hero-gradient" aria-hidden="true"></div>
-     <div class="absolute inset-0 opacity-10" aria-hidden="true">
-      <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
-       <defs>
-        <pattern id="crosses" width="20" height="20" patternUnits="userSpaceOnUse">
-         <path d="M10 5 L10 15 M5 10 L15 10" stroke="white" stroke-width="0.5" opacity="0.3" />
-        </pattern>
-       </defs>
-       <rect width="100" height="100" fill="url(#crosses)"></rect>
-      </svg>
-     </div>
+      <div class="absolute inset-0 hero-gradient"></div>
+      <div class="absolute inset-0 opacity-10">
+       <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+         <pattern id="crosses" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M10 5 L10 15 M5 10 L15 10" stroke="white" stroke-width="0.5" opacity="0.3" />
+         </pattern>
+        </defs>
+        <rect width="100" height="100" fill="url(#crosses)" />
+       </svg>
+      </div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center">
-     <div class="animate-fade-in-up">
-      <div class="mb-6">
-       <span class="inline-block px-4 py-2 bg-secondary/20 text-secondary rounded-full text-sm font-medium mb-4"> ✨ Igreja Adventista da Promessa </span>
-      </div>
-      <h1 id="hero-title" class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold mb-6 leading-tight">Você é bem-vindo aqui</h1>
-      <p id="hero-subtitle" class="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto mb-10 font-light">Um lugar para encontrar fé, esperança e comunidade</p>
-     </div>
+     <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold mb-6">Você é bem-vindo aqui</h1>
+     <p class="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto mb-10">Um lugar para encontrar fé, esperança e comunidade</p>
 
-     <div class="animate-fade-in-up delay-200 flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-      <a href="#" id="btn-conhecer" class="btn-primary px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 w-full sm:w-auto justify-center" role="button">
-       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>
-       Quero conhecer a igreja
+     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 flex-wrap">
+      <a href="#" id="btn-conhecer" class="btn-primary px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2">
+       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>
+       Quero conhecer
       </a>
-      <a href="#" id="btn-batizar" class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 w-full sm:w-auto justify-center" role="button">
-       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" /></svg>
-       Quero me batizar
+      <a href="#" id="btn-batizar" class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2">
+       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" /></svg>
+       Me batizar
       </a>
-      <a href="#" id="btn-oracao" class="btn-whatsapp px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 w-full sm:w-auto justify-center" role="button">
-       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
+      <a href="#" id="btn-oracao" class="btn-whatsapp px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2">
+       <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
        Preciso de oração
       </a>
      </div>
 
-     <!-- CORREÇÃO 1: Botão "Saiba Mais" agora redireciona para #sobre -->
-     <div class="animate-fade-in-up delay-400">
-      <a href="#sobre" class="inline-flex flex-col items-center text-white/70 hover:text-white transition-colors"> 
-       <span class="text-sm mb-2">Saiba mais</span>
-       <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-       </svg>
-      </a>
-     </div>
+     <a href="#sobre" class="inline-flex flex-col items-center text-white/70 hover:text-white transition-colors">
+      <span class="text-sm mb-2">Saiba mais</span>
+      <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+     </a>
     </div>
    </section>
 
-   <!-- Intro Section -->
-   <section id="intro" class="py-16 md:py-24 bg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-     <div class="text-center mb-16">
-      <span class="text-secondary font-semibold text-sm uppercase tracking-wider">Bem-vindo à nossa família</span>
-      <h2 class="font-display text-3xl md:text-4xl lg:text-5xl text-primary font-bold mt-4 mb-6">Uma Igreja que Acolhe</h2>
-      <div class="section-divider w-24 mx-auto mb-8"></div>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Somos uma comunidade de fé que acredita no poder transformador do amor de Deus. Aqui você encontra um lugar para crescer espiritualmente e fazer parte de uma família.</p>
-     </div>
-
-     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="card-hover bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-100">
-       <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.18l6 3.75v7.14l-6 3.75-6-3.75V7.93l6-3.75z" /><path d="M12 7v10M7 9.5l5 3.5 5-3.5" /></svg>
-       </div>
-       <h3 class="font-display text-xl text-primary font-semibold mb-3">Nossa Igreja</h3>
-       <p class="text-gray-600 text-sm">Conheça nossa história, missão e valores que nos guiam em cada passo.</p>
-       <a href="#sobre" class="inline-block mt-4 text-secondary font-semibold hover:text-primary transition-colors"> Saiba mais → </a>
-      </div>
-
-      <div class="card-hover bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-100">
-       <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
-       </div>
-       <h3 class="font-display text-xl text-primary font-semibold mb-3">Visite um Culto</h3>
-       <p class="text-gray-600 text-sm">Participe de nossos cultos e experimente a presença de Deus conosco.</p>
-       <a href="#agenda" class="inline-block mt-4 text-secondary font-semibold hover:text-primary transition-colors"> Ver horários → </a>
-      </div>
-
-      <div class="card-hover bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-100">
-       <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-       </div>
-       <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministérios</h3>
-       <p class="text-gray-600 text-sm">Descubra onde você pode servir e crescer em nossa comunidade.</p>
-       <a href="#ministerios" class="inline-block mt-4 text-secondary font-semibold hover:text-primary transition-colors"> Conhecer → </a>
-      </div>
-
-      <div class="card-hover bg-white rounded-2xl p-8 text-center shadow-lg border border-gray-100">
-       <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" /></svg>
-       </div>
-       <h3 class="font-display text-xl text-primary font-semibold mb-3">Agenda</h3>
-       <p class="text-gray-600 text-sm">Acompanhe nossa programação e não perca nenhum evento especial.</p>
-       <a href="#agenda" class="inline-block mt-4 text-secondary font-semibold hover:text-primary transition-colors"> Ver agenda → </a>
-      </div>
-     </div>
-    </div>
-   </section>
-
-   <!-- Sobre Section (COM UPLOAD DE IMAGEM E CONTEÚDO) -->
+   <!-- Sobre Section -->
    <section id="sobre" class="py-16 md:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div class="relative">
-       <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-        <div class="aspect-[4/3] bg-gradient-to-br from-primary via-primary/90 to-secondary/30 flex items-center justify-center">
-         <div class="text-center p-8">
-          <img id="about-main-image" src="" alt="Imagem Quem Somos" style="display:none; width:100%; height:100%; object-fit:cover;">
-          <span id="about-image-placeholder" style="display:flex; align-items:center; justify-content:center; flex-direction:column; width:100%; height:100%;">
-           <svg class="w-32 h-32 mx-auto mb-6" viewBox="0 0 100 100" aria-hidden="true">
-            <circle cx="50" cy="50" r="45" fill="#003D82" />
-            <path d="M 50 25 Q 40 35 40 45 Q 40 60 50 70 Q 60 60 60 45 Q 60 35 50 25 Z" fill="white" opacity="0.9" />
-            <path d="M 50 30 Q 45 37 45 45 Q 45 57 50 65 Q 55 57 55 45 Q 55 37 50 30 Z" fill="#003D82" opacity="0.7" />
-           </svg>
-           <p class="text-white/80 text-lg font-light">Unidos pela fé</p>
-          </span>
-         </div>
-        </div>
+      <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+       <div class="aspect-[4/3] bg-gradient-to-br from-primary via-primary/90 to-secondary/30 flex items-center justify-center">
+        <img id="about-main-image" src="" alt="Imagem Quem Somos" style="display:none; width:100%; height:100%; object-fit:cover;">
+        <span id="about-image-placeholder" style="display:flex; align-items:center; justify-content:center; flex-direction:column; width:100%; height:100%;">
+         <p class="text-white/80 text-lg font-light">Unidos pela fé</p>
+        </span>
        </div>
-
-       <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary/20 rounded-2xl -z-10" aria-hidden="true"></div>
-       <div class="absolute -top-6 -left-6 w-24 h-24 bg-primary/10 rounded-full -z-10" aria-hidden="true"></div>
       </div>
 
       <div>
-       <span class="text-secondary font-semibold text-sm uppercase tracking-wider">Sobre nós</span>
        <h2 class="font-display text-3xl md:text-4xl lg:text-5xl text-primary font-bold mt-4 mb-6">Quem Somos</h2>
        <div class="section-divider w-24 mb-8"></div>
        <div class="space-y-6 text-gray-600">
-        <p id="about-text-1" class="text-lg leading-relaxed">A <strong class="text-primary">Igreja Adventista da Promessa</strong> é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo. Somos uma família que acolhe pessoas de todas as idades e origens.</p>
-        <p id="about-text-2" class="leading-relaxed">Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo. Acreditamos que a igreja é um lugar de transformação, onde vidas são tocadas pelo amor de Deus.</p>
-       </div>
-
-       <div class="mt-10 space-y-6">
-        <div class="flex items-start gap-4">
-         <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-display text-xl text-primary font-semibold mb-2">Nossa Missão</h3>
-          <p class="text-gray-600">Proclamar o evangelho de Jesus Cristo e fazer discípulos em todas as nações, preparando pessoas para a volta de Jesus.</p>
-         </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-         <div class="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-display text-xl text-primary font-semibold mb-2">Nossa Visão</h3>
-          <p class="text-gray-600">Ser uma igreja relevante e acolhedora, onde cada pessoa encontre propósito, comunidade e transformação através de Cristo.</p>
-         </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-         <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-display text-xl text-primary font-semibold mb-2">Nossos Valores</h3>
-          <p class="text-gray-600">Amor, Fé, Acolhimento, Serviço, Comunhão e Compromisso com a Palavra de Deus.</p>
-         </div>
-        </div>
+        <p id="about-text-1" class="text-lg leading-relaxed">A Igreja Adventista da Promessa é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo.</p>
+        <p id="about-text-2" class="leading-relaxed">Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo.</p>
        </div>
       </div>
      </div>
     </div>
    </section>
 
-   <!-- Ministérios Section (OMITIDA PARA BREVIDADE - pode ser copiad da versão anterior) -->
+   <!-- CORREÇÃO 3: Ministérios Section RESTAURADA -->
    <section id="ministerios" class="py-16 md:py-24 bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="text-center mb-16">
       <span class="text-secondary font-semibold text-sm uppercase tracking-wider">Faça parte</span>
       <h2 class="font-display text-3xl md:text-4xl lg:text-5xl text-primary font-bold mt-4 mb-6">Nossos Ministérios</h2>
       <div class="section-divider w-24 mx-auto mb-8"></div>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Descubra onde você pode servir e crescer. Cada ministério é uma oportunidade de usar seus dons para a glória de Deus e edificação da igreja.</p>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Descubra onde você pode servir e crescer. Cada ministério é uma oportunidade de usar seus dons para a glória de Deus.</p>
      </div>
 
      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -408,7 +233,8 @@
          <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério Infantil</h3>
-        <p class="text-gray-600 mb-4">Dedicado a ensinar as crianças sobre o amor de Jesus através de histórias bíblicas.</p><span class="text-secondary text-sm font-medium">👶 0 a 12 anos</span>
+        <p class="text-gray-600 mb-4">Dedicado a ensinar as crianças sobre o amor de Jesus através de histórias bíblicas e atividades lúdicas.</p>
+        <span class="text-secondary text-sm font-medium">👶 0 a 12 anos</span>
        </div>
       </div>
 
@@ -419,7 +245,8 @@
          <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério de Jovens</h3>
-        <p class="text-gray-600 mb-4">Um espaço para jovens crescerem na fé e descobrirem seu propósito.</p><span class="text-secondary text-sm font-medium">🎯 13 a 35 anos</span>
+        <p class="text-gray-600 mb-4">Um espaço para jovens crescerem na fé, construírem amizades saudáveis e descobrirem seu propósito em Deus.</p>
+        <span class="text-secondary text-sm font-medium">🎯 13 a 35 anos</span>
        </div>
       </div>
 
@@ -430,7 +257,8 @@
          <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério de Música</h3>
-        <p class="text-gray-600 mb-4">Através da música e das artes, conduzimos a adoração e louvor.</p><span class="text-secondary text-sm font-medium">🎵 Adoração</span>
+        <p class="text-gray-600 mb-4">Através da música e das artes, conduzimos a igreja em momentos de adoração e louvor.</p>
+        <span class="text-secondary text-sm font-medium">🎵 Adoração</span>
        </div>
       </div>
 
@@ -441,7 +269,8 @@
          <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério de Ensino</h3>
-        <p class="text-gray-600 mb-4">Estudo bíblico e discipulado para todos os níveis.</p><span class="text-secondary text-sm font-medium">📖 Escola Bíblica</span>
+        <p class="text-gray-600 mb-4">Focado no discipulado e estudo bíblico, oferecendo classes e materiais para crescimento espiritual.</p>
+        <span class="text-secondary text-sm font-medium">📖 Escola Bíblica</span>
        </div>
       </div>
 
@@ -452,7 +281,8 @@
          <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério de Mulheres</h3>
-        <p class="text-gray-600 mb-4">Comunhão, apoio mútuo e crescimento espiritual.</p><span class="text-secondary text-sm font-medium">💜 Comunhão</span>
+        <p class="text-gray-600 mb-4">Um espaço de comunhão, apoio mútuo e crescimento espiritual para mulheres de todas as idades.</p>
+        <span class="text-secondary text-sm font-medium">💜 Comunhão</span>
        </div>
       </div>
 
@@ -463,21 +293,22 @@
          <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" /></svg>
         </div>
         <h3 class="font-display text-xl text-primary font-semibold mb-3">Ministério da Família</h3>
-        <p class="text-gray-600 mb-4">Fortalecendo casamentos e famílias.</p><span class="text-secondary text-sm font-medium">👨‍👩‍👧‍👦 Famílias</span>
+        <p class="text-gray-600 mb-4">Fortalecendo casamentos e famílias através de aconselhamento e eventos que promovem a união familiar.</p>
+        <span class="text-secondary text-sm font-medium">👨‍👩‍👧‍👦 Famílias</span>
        </div>
       </div>
      </div>
 
-     <div id="btn-ministerio-container" class="mt-12">
+     <div class="text-center mt-12">
       <a href="#" id="btn-ministerio" class="btn-whatsapp inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-lg">
-       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
+       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
        Quero participar de um ministério
       </a>
      </div>
     </div>
    </section>
 
-   <!-- CORREÇÃO 2: RESTAURADA SEÇÃO AGENDA COMPLETA -->
+   <!-- CORREÇÃO 4: Agenda Section COMPLETA -->
    <section id="agenda" class="py-16 md:py-24 bg-primary">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="text-center mb-16">
@@ -489,8 +320,12 @@
 
      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-       <h3 class="font-display text-2xl text-white font-semibold mb-6 flex items-center gap-3"><span class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
-         <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg></span> Cultos Regulares</h3>
+       <h3 class="font-display text-2xl text-white font-semibold mb-6 flex items-center gap-3">
+        <span class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
+         <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
+        </span>
+        Cultos Regulares
+       </h3>
        <div class="space-y-4">
         <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
          <div class="flex items-center gap-4">
@@ -501,8 +336,10 @@
            <h4 class="text-white font-semibold">Domingo</h4>
            <p class="text-white/70 text-sm">Culto de Celebração</p>
           </div>
-         </div><span id="sunday-time" class="text-secondary font-semibold">19h30</span>
+         </div>
+         <span id="sunday-time" class="text-secondary font-semibold">19h30</span>
         </div>
+
         <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
          <div class="flex items-center gap-4">
           <div class="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
@@ -512,8 +349,11 @@
            <h4 class="text-white font-semibold">Quarta-feira</h4>
            <p class="text-white/70 text-sm">Culto de Oração e Estudo</p>
           </div>
-         </div><span id="wednesday-time" class="text-secondary font-semibold">19h30</span>
+         </div>
+         <span id="wednesday-time" class="text-secondary font-semibold">19h30</span>
         </div>
+
+        <!-- CORREÇÃO 4: Culto de Sábado ADICIONADO -->
         <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
          <div class="flex items-center gap-4">
           <div class="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
@@ -523,18 +363,24 @@
            <h4 class="text-white font-semibold">Sábado</h4>
            <p class="text-white/70 text-sm">Escola Bíblica e Culto</p>
           </div>
-         </div><span id="saturday-time" class="text-secondary font-semibold">09h30 / 10h30</span>
+         </div>
+         <span id="saturday-time" class="text-secondary font-semibold">09h30 / 10h30</span>
         </div>
        </div>
       </div>
 
+      <!-- CORREÇÃO 4: Próximos Eventos COMPLETOS -->
       <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-       <h3 class="font-display text-2xl text-white font-semibold mb-6 flex items-center gap-3"><span class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
-         <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" /></svg></span> Próximos Eventos</h3>
-       <div class="space-y-4" id="events-list">
+       <h3 class="font-display text-2xl text-white font-semibold mb-6 flex items-center gap-3">
+        <span class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
+         <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z" /></svg>
+        </span>
+        Próximos Eventos
+       </h3>
+       <div class="space-y-4" id="events-container">
         <div class="p-4 bg-white/5 rounded-xl border-l-4 border-secondary">
          <div class="flex items-center gap-2 text-secondary text-sm mb-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
           <span id="event1-date">Em breve</span>
          </div>
          <h4 id="event1-title" class="text-white font-semibold mb-1">Culto Especial de Batismo</h4>
@@ -543,7 +389,7 @@
 
         <div class="p-4 bg-white/5 rounded-xl border-l-4 border-white/50">
          <div class="flex items-center gap-2 text-white/70 text-sm mb-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
           <span id="event2-date">Mensal</span>
          </div>
          <h4 id="event2-title" class="text-white font-semibold mb-1">Encontro de Casais</h4>
@@ -552,7 +398,7 @@
 
         <div class="p-4 bg-white/5 rounded-xl border-l-4 border-white/50">
          <div class="flex items-center gap-2 text-white/70 text-sm mb-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" /></svg>
           <span id="event3-date">Semanal</span>
          </div>
          <h4 id="event3-title" class="text-white font-semibold mb-1">Reunião de Jovens</h4>
@@ -564,13 +410,15 @@
 
      <div class="mt-12 bg-secondary/20 rounded-2xl p-6 md:p-8 text-center">
       <p class="text-white text-lg mb-4">🙏 Todos são bem-vindos em nossos cultos! Venha como você está.</p>
-      <a href="#contato" class="inline-flex items-center gap-2 text-secondary font-semibold hover:text-white transition-colors"> Ver como chegar 
-       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg></a>
+      <a href="#contato" class="inline-flex items-center gap-2 text-secondary font-semibold hover:text-white transition-colors">
+       Ver como chegar
+       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+      </a>
      </div>
     </div>
    </section>
 
-   <!-- CORREÇÃO 2: RESTAURADA SEÇÃO CONTATO COMPLETA -->
+   <!-- Contato Section -->
    <section id="contato" class="py-16 md:py-24 bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="text-center mb-16">
@@ -582,31 +430,34 @@
 
      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div>
+       <!-- CORREÇÃO 1: WhatsApp Section COM botões adicionais -->
        <div class="bg-white rounded-2xl p-8 shadow-lg mb-8">
         <h3 class="font-display text-2xl text-primary font-semibold mb-4">Fale pelo WhatsApp</h3>
         <p class="text-gray-600 mb-6">A forma mais rápida de entrar em contato conosco. Responderemos o mais breve possível!</p>
-        <a href="#" id="btn-whatsapp-main" class="btn-whatsapp flex items-center justify-center gap-3 w-full py-4 rounded-xl font-semibold text-lg mb-6" role="button">
-         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
+        <a href="#" id="btn-whatsapp-main" class="btn-whatsapp flex items-center justify-center gap-3 w-full py-4 rounded-xl font-semibold text-lg mb-6">
+         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
          Conversar no WhatsApp
         </a>
+        <!-- CORREÇÃO 1: Botões adicionais restaurados -->
         <div class="grid grid-cols-2 gap-4">
-         <a href="#" id="btn-batizar-contact" class="btn-primary flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm" role="button">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" /></svg>
-          Quero me batizar
+         <a href="#" id="btn-batizar-contact" class="btn-primary flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" /></svg>
+          Me batizar
          </a>
-         <a href="#" id="btn-oracao-contact" class="btn-secondary flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm border-primary text-primary" role="button">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+         <a href="#" id="btn-oracao-contact" class="btn-secondary flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm border-primary text-primary">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
           Preciso de oração
          </a>
         </div>
        </div>
 
+       <!-- CORREÇÃO 2: Ícones restaurados em "Visite-nos" -->
        <div class="bg-white rounded-2xl p-8 shadow-lg">
         <h3 class="font-display text-2xl text-primary font-semibold mb-6">Visite-nos</h3>
         <div class="space-y-6">
          <div class="flex items-start gap-4">
           <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-           <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+           <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
           </div>
           <div>
            <h4 class="text-primary font-semibold mb-1">Endereço</h4>
@@ -616,29 +467,30 @@
 
          <div class="flex items-start gap-4">
           <div class="w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-           <svg class="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
+           <svg class="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
           </div>
           <div>
            <h4 class="text-primary font-semibold mb-1">Horários dos Cultos</h4>
-           <p class="text-gray-600">Quarta-feira: <span id="wednesday-service-info">19h30</span><br>
-             Sábado: <span id="saturday-service-info">09h30 Escola Bíblica / 10h30 Culto</span><br>
-             Domingo: <span id="sunday-service-info">19h30</span></p>
+           <p class="text-gray-600">Quarta-feira: <span id="wednesday-service">19h30</span><br>
+           Sábado: <span id="saturday-service">09h30 Escola Bíblica / 10h30 Culto</span><br>
+           Domingo: <span id="sunday-service">19h30</span></p>
           </div>
          </div>
         </div>
        </div>
       </div>
 
+      <!-- CORREÇÃO 2: "Como chegar" com ícone restaurado -->
       <div class="bg-white rounded-2xl overflow-hidden shadow-lg h-full min-h-[400px]">
        <div class="h-full bg-gradient-to-br from-primary/5 to-secondary/5 flex flex-col items-center justify-center p-8">
         <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-         <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+         <svg class="w-12 h-12 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
         </div>
         <h3 class="font-display text-2xl text-primary font-semibold mb-3">Como Chegar</h3>
         <p class="text-gray-600 text-center mb-6 max-w-sm">Clique no botão abaixo para abrir o mapa e ver as direções para nossa igreja.</p>
         <a id="maps-button" href="https://maps.app.goo.gl/cozHDkkmZXE9Nh1d8" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold">
-         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
-         Abrir no Google Maps
+         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+         Abrir Google Maps
         </a>
        </div>
       </div>
@@ -646,18 +498,17 @@
     </div>
    </section>
 
-   <!-- Footer -->
+   <!-- CORREÇÃO 5: Footer RESTAURADO COM DESCRIÇÃO COMPLETA -->
    <footer class="bg-primary py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center space-x-3">
-       <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden" aria-hidden="true">
+       <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
         <img id="footer-logo" src="" alt="Logo" style="display:none; width:100%; height:100%; object-fit:contain;">
         <span id="footer-logo-placeholder" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
-         <svg viewBox="0 0 100 100" class="w-10 h-10" aria-hidden="true">
+         <svg viewBox="0 0 100 100" class="w-10 h-10">
           <circle cx="50" cy="50" r="45" fill="#003D82" />
           <path d="M 50 25 Q 40 35 40 45 Q 40 60 50 70 Q 60 60 60 45 Q 60 35 50 25 Z" fill="white" opacity="0.9" />
-          <path d="M 50 30 Q 45 37 45 45 Q 45 57 50 65 Q 55 57 55 45 Q 55 37 50 30 Z" fill="#003D82" opacity="0.7" />
          </svg>
         </span>
        </div>
@@ -667,155 +518,176 @@
        </div>
       </div>
 
+      <!-- CORREÇÃO 5: Descrição e informações completas do rodapé -->
       <div class="text-center">
        <p class="text-white/70 text-sm">© 2026 Igreja Adventista da Promessa. Todos os direitos reservados.</p>
-       <p class="text-secondary text-xs mt-1">"Porque onde estiverem dois ou três reunidos em meu nome, ali estou no meio deles." - Mateus 18:20</p>
+       <p class="text-secondary text-xs mt-2">"Porque onde estiverem dois ou três reunidos em meu nome, ali estou no meio deles." - Mateus 18:20</p>
+       <p class="text-white/60 text-xs mt-2">Cascavel - Paraná | Rua Presidente Bernardes, 2476</p>
       </div>
 
       <div class="flex items-center gap-4">
-       <a href="#" id="footer-whatsapp" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-primary transition-colors" aria-label="WhatsApp">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
+       <a href="#" id="footer-whatsapp" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-primary transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
        </a>
 
-       <button id="admin-btn" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors" aria-label="Painel administrador">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 00-3 3v1.06A8.001 8.001 0 004.06 12H3a1 1 0 000 2h1.06A8.001 8.001 0 009 19.94V21a1 1 0 002 0v-1.06A8.001 8.001 0 0019.94 14H21a1 1 0 000-2h-1.06A8.001 8.001 0 0015 5.06V4a3 3 0 00-3-3zM12 6a6 6 0 110 12A6 6 0 0112 6z" /></svg>
+       <button id="admin-btn" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v1.06A8.001 8.001 0 004.06 12H3a1 1 0 000 2h1.06A8.001 8.001 0 009 19.94V21a1 1 0 002 0v-1.06A8.001 8.001 0 0019.94 14H21a1 1 0 000-2h-1.06A8.001 8.001 0 0015 5.06V4a3 3 0 00-3-3zM12 6a6 6 0 110 12A6 6 0 0112 6z" /></svg>
        </button>
       </div>
      </div>
     </div>
    </footer>
 
-   <a href="#" id="floating-whatsapp" class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:bg-[#20BA5A] transition-all hover:scale-110 z-50" aria-label="WhatsApp">
-    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
+   <a href="#" id="floating-whatsapp" class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:bg-[#20BA5A] z-50">
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
    </a>
 
   </div>
 
   <!-- Admin Modal -->
-  <div id="admin-modal-overlay" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-      <div id="admin-login" aria-hidden="false">
-        <h3 id="admin-modal-title" class="text-xl font-semibold">Painel Administrador - Login</h3>
-        <p class="text-sm text-gray-600 mb-4">Insira a senha administrativa para editar a logo, eventos e conteúdo "Quem Somos".</p>
-        <div class="field">
-          <label for="admin-password" class="text-sm font-medium">Senha</label>
-          <input id="admin-password" type="password" class="border p-2 rounded" />
-        </div>
-        <div class="modal-actions">
-          <button id="admin-login-btn" class="btn-primary px-4 py-2 rounded">Entrar</button>
-          <button id="admin-cancel-btn" class="btn-secondary px-4 py-2 rounded">Fechar</button>
-        </div>
+  <div id="admin-modal-overlay" class="modal-overlay">
+    <div class="modal">
+     <div id="admin-login">
+      <h3 class="text-xl font-semibold">Painel Administrador - Login</h3>
+      <p class="text-sm text-gray-600 mb-4">Insira a senha para editar logo, eventos, conteúdo e cultos.</p>
+      <div class="mb-4">
+       <label class="text-sm font-medium">Senha</label>
+       <input id="admin-password" type="password" class="border p-2 rounded w-full text-sm mt-1" />
+      </div>
+      <div class="flex gap-2">
+       <button id="admin-login-btn" class="btn-primary px-4 py-2 rounded text-sm flex-1">Entrar</button>
+       <button id="admin-cancel-btn" class="btn-secondary px-4 py-2 rounded text-sm flex-1">Fechar</button>
+      </div>
+     </div>
+
+     <div id="admin-panel" style="display:none;">
+      <h3 class="text-xl font-semibold mb-4">Painel de Administração</h3>
+
+      <!-- LOGO UPLOAD -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+       <h4 class="font-semibold text-blue-900 mb-3">📸 Carregar Logo</h4>
+       <div class="mb-3">
+        <label class="text-sm font-medium">Selecionar imagem</label>
+        <input id="logo-upload" type="file" accept="image/*" class="border p-2 rounded text-sm w-full mt-1" />
+       </div>
+       <div class="logo-preview" id="logo-preview"><div>Pré-visualização</div></div>
+       <button id="logo-upload-btn" class="btn-primary px-4 py-2 rounded text-sm mt-3 w-full">
+        <span id="logo-btn-text">Salvar Logo no Firebase</span>
+       </button>
       </div>
 
-      <div id="admin-panel" style="display:none;" aria-hidden="true">
-        <h3 class="text-xl font-semibold mb-4">Painel de Administração</h3>
-        
-        <!-- SEÇÃO 1: LOGO -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <h4 class="font-semibold text-blue-900 mb-3">📸 Carregar Logo</h4>
-          <div class="field">
-            <label for="logo-upload" class="font-medium text-sm">Selecionar imagem</label>
-            <input id="logo-upload" type="file" accept="image/*" class="border p-2 rounded text-sm" />
-          </div>
-          <div class="logo-preview" id="logo-preview"><div class="logo-placeholder">Pré-visualização</div></div>
-          <button type="button" id="logo-upload-btn" class="btn-primary px-4 py-2 rounded text-sm mt-4 w-full">Salvar Logo</button>
-        </div>
+      <!-- ABOUT IMAGE UPLOAD -->
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+       <h4 class="font-semibold text-green-900 mb-3">📄 Editar "Quem Somos"</h4>
+       <div class="mb-3">
+        <label class="text-sm font-medium">Imagem</label>
+        <input id="about-image-upload" type="file" accept="image/*" class="border p-2 rounded text-sm w-full mt-1" />
+       </div>
+       <div class="img-preview" id="about-img-preview"><div>Pré-visualização</div></div>
+       <button id="about-image-upload-btn" class="btn-primary px-4 py-2 rounded text-sm mt-2 w-full">Salvar Imagem</button>
 
-        <!-- CORREÇÃO 3: NOVA SEÇÃO PARA UPLOAD E EDIÇÃO DA SEÇÃO "QUEM SOMOS" -->
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-          <h4 class="font-semibold text-green-900 mb-3">📄 Editar Seção "Quem Somos"</h4>
-          <p class="text-sm text-gray-600 mb-4">Carregue uma imagem e edite os textos da seção "Quem Somos".</p>
-          
-          <div class="field">
-            <label for="about-image-upload" class="font-medium text-sm">Imagem (principal)</label>
-            <input id="about-image-upload" type="file" accept="image/*" class="border p-2 rounded text-sm" />
-          </div>
-          <div class="img-preview" id="about-img-preview"><div class="logo-placeholder">Pré-visualização</div></div>
-          <button type="button" id="about-image-upload-btn" class="btn-primary px-4 py-2 rounded text-sm mt-2 w-full">Salvar Imagem</button>
-
-          <div class="field mt-4">
-            <label for="about-text-1-input" class="font-medium text-sm">Primeiro parágrafo</label>
-            <textarea id="about-text-1-input" class="border p-2 rounded text-sm" rows="3"></textarea>
-          </div>
-
-          <div class="field">
-            <label for="about-text-2-input" class="font-medium text-sm">Segundo parágrafo</label>
-            <textarea id="about-text-2-input" class="border p-2 rounded text-sm" rows="3"></textarea>
-          </div>
-
-          <button type="button" id="about-save-btn" class="btn-primary px-4 py-2 rounded text-sm mt-3 w-full">Salvar Conteúdo</button>
-        </div>
-
-        <!-- SEÇÃO 2: EVENTOS -->
-        <h4 class="font-semibold text-gray-900 mb-3">📅 Editar Próximos Eventos</h4>
-        <form id="admin-form">
-          <div class="field">
-            <label for="event1-title-input" class="font-medium text-sm">Evento 1 - Título</label>
-            <input id="event1-title-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-          <div class="field">
-            <label for="event1-desc-input" class="font-medium text-sm">Descrição</label>
-            <textarea id="event1-desc-input" class="border p-2 rounded text-sm" rows="2"></textarea>
-          </div>
-          <div class="field">
-            <label for="event1-date-input" class="font-medium text-sm">Data</label>
-            <input id="event1-date-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-
-          <div class="field">
-            <label for="event2-title-input" class="font-medium text-sm">Evento 2 - Título</label>
-            <input id="event2-title-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-          <div class="field">
-            <label for="event2-desc-input" class="font-medium text-sm">Descrição</label>
-            <textarea id="event2-desc-input" class="border p-2 rounded text-sm" rows="2"></textarea>
-          </div>
-          <div class="field">
-            <label for="event2-date-input" class="font-medium text-sm">Data</label>
-            <input id="event2-date-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-
-          <div class="field">
-            <label for="event3-title-input" class="font-medium text-sm">Evento 3 - Título</label>
-            <input id="event3-title-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-          <div class="field">
-            <label for="event3-desc-input" class="font-medium text-sm">Descrição</label>
-            <textarea id="event3-desc-input" class="border p-2 rounded text-sm" rows="2"></textarea>
-          </div>
-          <div class="field">
-            <label for="event3-date-input" class="font-medium text-sm">Data</label>
-            <input id="event3-date-input" type="text" class="border p-2 rounded text-sm" />
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" id="admin-save-btn" class="btn-primary px-4 py-2 rounded text-sm">Salvar Tudo</button>
-            <button type="button" id="admin-logout-btn" class="btn-secondary px-4 py-2 rounded text-sm">Sair</button>
-          </div>
-        </form>
+       <div class="mt-4">
+        <label class="text-sm font-medium">Parágrafo 1</label>
+        <textarea id="about-text-1-input" class="border p-2 rounded text-sm w-full mt-1" rows="2"></textarea>
+       </div>
+       <div class="mt-3">
+        <label class="text-sm font-medium">Parágrafo 2</label>
+        <textarea id="about-text-2-input" class="border p-2 rounded text-sm w-full mt-1" rows="2"></textarea>
+       </div>
       </div>
+
+      <!-- HORÁRIOS DOS CULTOS -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+       <h4 class="font-semibold text-yellow-900 mb-3">⏰ Horários dos Cultos</h4>
+       <div class="mb-3">
+        <label class="text-sm font-medium">Domingo</label>
+        <input id="sunday-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+       </div>
+       <div class="mb-3">
+        <label class="text-sm font-medium">Quarta-feira</label>
+        <input id="wednesday-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+       </div>
+       <div class="mb-3">
+        <label class="text-sm font-medium">Sábado</label>
+        <input id="saturday-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+       </div>
+      </div>
+
+      <!-- EVENTOS -->
+      <h4 class="font-semibold mb-3">📅 Editar Eventos</h4>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Evento 1 - Título</label>
+       <input id="event1-title-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Descrição</label>
+       <textarea id="event1-desc-input" class="border p-2 rounded text-sm w-full mt-1" rows="2"></textarea>
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Data</label>
+       <input id="event1-date-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+
+      <div class="mb-3">
+       <label class="text-sm font-medium">Evento 2 - Título</label>
+       <input id="event2-title-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Descrição</label>
+       <textarea id="event2-desc-input" class="border p-2 rounded text-sm w-full mt-1" rows="2"></textarea>
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Data</label>
+       <input id="event2-date-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+
+      <div class="mb-3">
+       <label class="text-sm font-medium">Evento 3 - Título</label>
+       <input id="event3-title-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Descrição</label>
+       <textarea id="event3-desc-input" class="border p-2 rounded text-sm w-full mt-1" rows="2"></textarea>
+      </div>
+      <div class="mb-3">
+       <label class="text-sm font-medium">Data</label>
+       <input id="event3-date-input" type="text" class="border p-2 rounded text-sm w-full mt-1" />
+      </div>
+
+      <button id="admin-save-btn" class="btn-primary px-4 py-2 rounded text-sm mt-4 w-full mb-2">Salvar Tudo</button>
+      <button id="admin-logout-btn" class="btn-secondary px-4 py-2 rounded text-sm w-full">Sair</button>
+     </div>
     </div>
-  </div>
+   </div>
 
-  <!-- Script Principal -->
+  <!-- SCRIPT COM FIREBASE -->
   <script>
-  (function () {
-    'use strict';
+    // ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyAo4G7i-X7SeiQlYgZclCJLO6WwbU_J6Hk",
+  authDomain: "igreja-iap.firebaseapp.com",
+  projectId: "igreja-iap",
+  storageBucket: "igreja-iap.firebasestorage.app",
+  messagingSenderId: "155166021024",
+  appId: "1:155166021024:web:bfb9cddd2479eb63dd80c5",
+  measurementId: "G-KY1VLV2071"
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage();
 
     const defaultConfig = {
-      hero_title: 'Você é bem-vindo aqui',
-      hero_subtitle: 'Um lugar para encontrar fé, esperança e comunidade',
       whatsapp_number: '45999424023',
-      church_address: 'Rua Presidente Bernardes, 2476, Centro\nCascavel - Paraná. CEP 85810-130',
+      logo_base64: '',
+      about_image_base64: '',
+      about_text_1: 'A Igreja Adventista da Promessa é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo.',
+      about_text_2: 'Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo.',
       sunday_service: '19h30',
       wednesday_service: '19h30',
-      saturday_service: '09h30 Escola Bíblica / 10h30 Culto',
-      google_maps_url: 'https://maps.app.goo.gl/cozHDkkmZXE9Nh1d8',
-      background_color: '#003366',
-      accent_color: '#D4A84B',
-      text_color: '#1F2937',
-      surface_color: '#FDF8F3',
-      button_color: '#25D366',
+      saturday_service: '09h30 / 10h30',
+      church_address: 'Rua Presidente Bernardes, 2476, Centro\nCascavel - Paraná. CEP 85810-130',
       event1_title: 'Culto Especial de Batismo',
       event1_desc: 'Celebração para novos membros da nossa família',
       event1_date: 'Em breve',
@@ -824,424 +696,276 @@
       event2_date: 'Mensal',
       event3_title: 'Reunião de Jovens',
       event3_desc: 'Comunhão e estudo para a juventude',
-      event3_date: 'Semanal',
-      logo_base64: '',
-      // CORREÇÃO 3: Novos campos para "Quem Somos"
-      about_image_base64: '',
-      about_text_1: 'A Igreja Adventista da Promessa é uma comunidade de cristãos comprometidos em viver e compartilhar o evangelho de Jesus Cristo. Somos uma família que acolhe pessoas de todas as idades e origens.',
-      about_text_2: 'Fundamentados na Palavra de Deus, buscamos crescer espiritualmente através do estudo bíblico, oração, comunhão e serviço ao próximo. Acreditamos que a igreja é um lugar de transformação, onde vidas são tocadas pelo amor de Deus.'
+      event3_date: 'Semanal'
     };
 
-    const storedConfig = (function () {
+    let config = { ...defaultConfig };
+
+    async function loadConfigFromFirebase() {
       try {
-        const raw = localStorage.getItem('iap_config_v1');
-        return raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        console.warn('Falha ao ler config do localStorage', e);
+        const snapshot = await db.ref('config').once('value');
+        if (snapshot.exists()) {
+          config = { ...defaultConfig, ...snapshot.val() };
+          applyConfigToDom();
+        } else {
+          applyConfigToDom();
+        }
+      } catch (error) {
+        console.error('Erro ao carregar config:', error);
+        applyConfigToDom();
+      }
+    }
+
+    async function saveConfigToFirebase() {
+      try {
+        await db.ref('config').set(config);
+        console.log('✅ Config salva no Firebase');
+        return true;
+      } catch (error) {
+        console.error('❌ Erro ao salvar:', error);
+        alert('Erro ao salvar no Firebase');
+        return false;
+      }
+    }
+
+    async function uploadImageToFirebase(file, path) {
+      try {
+        const fileRef = storage.ref(path + '/' + Date.now() + '_' + file.name);
+        await fileRef.put(file);
+        const url = await fileRef.getDownloadURL();
+        return url;
+      } catch (error) {
+        console.error('Erro ao fazer upload:', error);
+        alert('Erro ao enviar imagem');
         return null;
       }
-    })();
-
-    const config = Object.assign({}, defaultConfig, storedConfig || {});
-
-    function sanitizeText(input) {
-      if (input == null) return '';
-      return String(input).replace(/[<>]/g, '');
     }
 
-    function setSafeAddress(element, address) {
-      if (!element) return;
-      while (element.firstChild) element.removeChild(element.firstChild);
-      if (!address) return;
-      const lines = String(address).split(/\r?\n/);
-      lines.forEach((line, idx) => {
-        element.appendChild(document.createTextNode(line));
-        if (idx < lines.length - 1) element.appendChild(document.createElement('br'));
-      });
-    }
-
-    function cacheId(id) {
-      return document.getElementById(id);
-    }
-
-    function normalizeWhatsAppNumber(raw) {
-      if (!raw) return '';
-      const digits = String(raw).replace(/\D/g, '');
-      if (/^55\d+$/.test(digits)) return digits;
-      if (digits.length === 10 || digits.length === 11) return '55' + digits;
-      return digits;
-    }
-
-    function getWhatsAppUrl(number, message = '') {
-      const normalized = normalizeWhatsAppNumber(number || config.whatsapp_number || defaultConfig.whatsapp_number);
-      if (!normalized) return '#';
-      const encodedMessage = message ? '?text=' + encodeURIComponent(message) : '';
-      return `https://wa.me/${normalized}${encodedMessage}`;
-    }
-
-    function updateWhatsAppLinks(cfg) {
-      const number = cfg.whatsapp_number || defaultConfig.whatsapp_number;
-      const safeNumber = normalizeWhatsAppNumber(number);
-      const map = [
-        ['btn-conhecer', getWhatsAppUrl(safeNumber, 'Olá! Gostaria de conhecer a Igreja Adventista da Promessa.')],
-        ['btn-batizar', getWhatsAppUrl(safeNumber, 'Olá! Tenho interesse em me batizar.')],
-        ['btn-oracao', getWhatsAppUrl(safeNumber, 'Olá! Preciso de oração.')],
-        ['btn-ministerio', getWhatsAppUrl(safeNumber, 'Olá! Gostaria de participar de um ministério.')],
-        ['btn-whatsapp-main', getWhatsAppUrl(safeNumber, 'Olá! Vim pelo site da igreja.')],
-        ['btn-batizar-contact', getWhatsAppUrl(safeNumber, 'Olá! Tenho interesse em me batizar.')],
-        ['btn-oracao-contact', getWhatsAppUrl(safeNumber, 'Olá! Preciso de oração.')],
-        ['footer-whatsapp', getWhatsAppUrl(safeNumber)],
-        ['floating-whatsapp', getWhatsAppUrl(safeNumber, 'Olá! Vim pelo site da igreja.')]
-      ];
-      map.forEach(([id, url]) => {
-        const el = cacheId(id);
-        if (el) el.setAttribute('href', url);
-      });
-    }
-
-    function updateLogos(cfg) {
-      if (!cfg.logo_base64) return;
-      const logoData = cfg.logo_base64;
-      ['navbar-logo', 'footer-logo'].forEach(id => {
-        const logoEl = cacheId(id);
-        const placeholderEl = cacheId(id.replace('logo', 'logo-placeholder'));
-        if (logoEl && placeholderEl) {
-          logoEl.src = logoData;
-          logoEl.style.display = 'block';
-          placeholderEl.style.display = 'none';
-        }
-      });
-      const ogImageMeta = cacheId('og-image-meta');
-      if (ogImageMeta) ogImageMeta.setAttribute('content', logoData);
-    }
-
-    // CORREÇÃO 3: Atualizar imagem e texto de "Quem Somos"
-    function updateAboutSection(cfg) {
-      if (cfg.about_image_base64) {
-        const aboutImg = cacheId('about-main-image');
-        const placeholder = cacheId('about-image-placeholder');
-        if (aboutImg && placeholder) {
-          aboutImg.src = cfg.about_image_base64;
-          aboutImg.style.display = 'block';
-          placeholder.style.display = 'none';
-        }
-      }
-      const text1 = cacheId('about-text-1');
-      const text2 = cacheId('about-text-2');
-      if (text1) text1.textContent = cfg.about_text_1 || defaultConfig.about_text_1;
-      if (text2) text2.textContent = cfg.about_text_2 || defaultConfig.about_text_2;
-    }
-
-    function applyConfigToDom(cfg) {
-      const heroTitle = cacheId('hero-title');
-      const heroSubtitle = cacheId('hero-subtitle');
-      if (heroTitle) heroTitle.textContent = sanitizeText(cfg.hero_title || defaultConfig.hero_title);
-      if (heroSubtitle) heroSubtitle.textContent = sanitizeText(cfg.hero_subtitle || defaultConfig.hero_subtitle);
-
-      const addrEl = cacheId('church-address');
-      if (addrEl) setSafeAddress(addrEl, cfg.church_address || defaultConfig.church_address);
-
-      ['sunday', 'wednesday', 'saturday'].forEach(day => {
-        const timeEl = cacheId(day + '-time');
-        const serviceEl = cacheId(day + '-service-info');
-        const key = day + '_service';
-        const value = cfg[key] || defaultConfig[key];
-        if (timeEl) timeEl.textContent = sanitizeText(value);
-        if (serviceEl) serviceEl.textContent = sanitizeText(value);
-      });
-
-      const mapsButton = cacheId('maps-button');
-      if (mapsButton) {
-        mapsButton.setAttribute('href', cfg.google_maps_url || defaultConfig.google_maps_url);
-        mapsButton.setAttribute('rel', 'noopener noreferrer');
-        mapsButton.setAttribute('target', '_blank');
+    function applyConfigToDom() {
+      // Logo
+      if (config.logo_base64) {
+        document.getElementById('navbar-logo').src = config.logo_base64;
+        document.getElementById('navbar-logo').style.display = 'block';
+        document.getElementById('navbar-logo-placeholder').style.display = 'none';
+        document.getElementById('footer-logo').src = config.logo_base64;
+        document.getElementById('footer-logo').style.display = 'block';
+        document.getElementById('footer-logo-placeholder').style.display = 'none';
       }
 
-      const events = [
-        { title: 'event1-title', desc: 'event1-desc', date: 'event1-date', key: 'event1' },
-        { title: 'event2-title', desc: 'event2-desc', date: 'event2-date', key: 'event2' },
-        { title: 'event3-title', desc: 'event3-desc', date: 'event3-date', key: 'event3' }
-      ];
-      events.forEach((ev) => {
-        const titleEl = cacheId(ev.title);
-        const descEl = cacheId(ev.desc);
-        const dateEl = cacheId(ev.date);
-        const keyTitle = cfg[ev.key + '_title'] || defaultConfig[ev.key + '_title'];
-        const keyDesc = cfg[ev.key + '_desc'] || defaultConfig[ev.key + '_desc'];
-        const keyDate = cfg[ev.key + '_date'] || defaultConfig[ev.key + '_date'];
-        if (titleEl) titleEl.textContent = sanitizeText(keyTitle);
-        if (descEl) descEl.textContent = sanitizeText(keyDesc);
-        if (dateEl) dateEl.textContent = sanitizeText(keyDate);
-      });
+      // About
+      if (config.about_image_base64) {
+        document.getElementById('about-main-image').src = config.about_image_base64;
+        document.getElementById('about-main-image').style.display = 'block';
+        document.getElementById('about-image-placeholder').style.display = 'none';
+      }
+      document.getElementById('about-text-1').textContent = config.about_text_1 || '';
+      document.getElementById('about-text-2').textContent = config.about_text_2 || '';
 
-      updateWhatsAppLinks(cfg);
-      updateLogos(cfg);
-      updateAboutSection(cfg); // CORREÇÃO 3
+      // Horários
+      document.getElementById('sunday-time').textContent = config.sunday_service || '19h30';
+      document.getElementById('wednesday-time').textContent = config.wednesday_service || '19h30';
+      document.getElementById('saturday-time').textContent = config.saturday_service || '09h30 / 10h30';
+      document.getElementById('sunday-service').textContent = config.sunday_service || '19h30';
+      document.getElementById('wednesday-service').textContent = config.wednesday_service || '19h30';
+      document.getElementById('saturday-service').textContent = config.saturday_service || '09h30 / 10h30';
+
+      // Endereço
+      document.getElementById('church-address').textContent = config.church_address || defaultConfig.church_address;
+
+      // Eventos
+      document.getElementById('event1-title').textContent = config.event1_title || 'Culto Especial';
+      document.getElementById('event1-desc').textContent = config.event1_desc || '';
+      document.getElementById('event1-date').textContent = config.event1_date || 'Em breve';
+
+      document.getElementById('event2-title').textContent = config.event2_title || 'Encontro';
+      document.getElementById('event2-desc').textContent = config.event2_desc || '';
+      document.getElementById('event2-date').textContent = config.event2_date || 'Mensal';
+
+      document.getElementById('event3-title').textContent = config.event3_title || 'Reunião';
+      document.getElementById('event3-desc').textContent = config.event3_desc || '';
+      document.getElementById('event3-date').textContent = config.event3_date || 'Semanal';
+
+      // WhatsApp
+      const waNumber = config.whatsapp_number.replace(/\D/g, '');
+      const waUrl = `https://wa.me/${waNumber}?text=Olá`;
+      ['btn-conhecer', 'btn-batizar', 'btn-oracao', 'btn-ministerio', 'btn-whatsapp-main', 'btn-batizar-contact', 'btn-oracao-contact', 'footer-whatsapp', 'floating-whatsapp'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.href = waUrl;
+      });
     }
 
-    applyConfigToDom(config);
+    // ADMIN PANEL
+    const adminBtn = document.getElementById('admin-btn');
+    const overlay = document.getElementById('admin-modal-overlay');
+    const loginSection = document.getElementById('admin-login');
+    const panelSection = document.getElementById('admin-panel');
+    const loginBtn = document.getElementById('admin-login-btn');
+    const cancelBtn = document.getElementById('admin-cancel-btn');
+    const logoutBtn = document.getElementById('admin-logout-btn');
+    const passwordInput = document.getElementById('admin-password');
+    const DEMO_PASSWORD = 'changeme';
 
-    function onConfigChange(newConfig) {
-      Object.assign(config, newConfig || {});
-      try {
-        localStorage.setItem('iap_config_v1', JSON.stringify(config));
-      } catch (e) {
-        console.warn('Falha ao salvar config', e);
-      }
-      applyConfigToDom(config);
-    }
+    adminBtn.addEventListener('click', () => {
+      overlay.classList.add('open');
+      passwordInput.focus();
+    });
 
-    // Mobile menu
-    (function setupMobileMenu() {
-      const mobileMenuBtn = cacheId('mobile-menu-btn');
-      const closeMenuBtn = cacheId('close-menu-btn');
-      const mobileMenu = cacheId('mobile-menu');
-      const menuOverlay = cacheId('menu-overlay');
+    cancelBtn.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      loginSection.style.display = '';
+      panelSection.style.display = 'none';
+      passwordInput.value = '';
+    });
 
-      if (!mobileMenuBtn || !mobileMenu) return;
-
-      let open = false;
-
-      function openMenu() {
-        mobileMenu.classList.add('open');
-        menuOverlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-        mobileMenuBtn.setAttribute('aria-expanded', 'true');
-        open = true;
-      }
-
-      function closeMenu() {
-        mobileMenu.classList.remove('open');
-        menuOverlay.classList.add('hidden');
-        document.body.style.overflow = '';
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        open = false;
-      }
-
-      mobileMenuBtn.addEventListener('click', () => { open ? closeMenu() : openMenu(); });
-      closeMenuBtn && closeMenuBtn.addEventListener('click', closeMenu);
-      menuOverlay && menuOverlay.addEventListener('click', closeMenu);
-      mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-    })();
-
-    // Admin panel
-    (function setupAdminPanel() {
-      const adminBtn = cacheId('admin-btn');
-      const overlay = cacheId('admin-modal-overlay');
-      const loginSection = cacheId('admin-login');
-      const panelSection = cacheId('admin-panel');
-      const loginBtn = cacheId('admin-login-btn');
-      const cancelBtn = cacheId('admin-cancel-btn');
-      const passwordInput = cacheId('admin-password');
-
-      const EVENT_KEYS = ['event1', 'event2', 'event3'];
-      const inputs = {
-        'event1_title': cacheId('event1-title-input'),
-        'event1_desc': cacheId('event1-desc-input'),
-        'event1_date': cacheId('event1-date-input'),
-        'event2_title': cacheId('event2-title-input'),
-        'event2_desc': cacheId('event2-desc-input'),
-        'event2_date': cacheId('event2-date-input'),
-        'event3_title': cacheId('event3-title-input'),
-        'event3_desc': cacheId('event3-desc-input'),
-        'event3_date': cacheId('event3-date-input')
-      };
-
-      const DEMO_ADMIN_PASSWORD = 'changeme';
-
-      // Logo upload
-      const logoUpload = cacheId('logo-upload');
-      const logoPreview = cacheId('logo-preview');
-      const logoUploadBtn = cacheId('logo-upload-btn');
-      let selectedLogoBase64 = config.logo_base64 || '';
-
-      logoUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-          alert('Por favor selecione uma imagem válida.');
-          return;
-        }
-        if (file.size > 5 * 1024 * 1024) {
-          alert('A imagem deve ter menos de 5MB.');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          selectedLogoBase64 = event.target.result;
-          logoPreview.innerHTML = `<img src="${selectedLogoBase64}" alt="Logo preview" />`;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      logoUploadBtn.addEventListener('click', function() {
-        if (!selectedLogoBase64) {
-          alert('Por favor selecione uma imagem primeiro.');
-          return;
-        }
-        config.logo_base64 = selectedLogoBase64;
-        try {
-          localStorage.setItem('iap_config_v1', JSON.stringify(config));
-        } catch (e) {
-          alert('Erro ao salvar a logo.');
-          return;
-        }
-        updateLogos(config);
-        alert('Logo atualizada com sucesso!');
-      });
-
-      // CORREÇÃO 3: Upload da imagem "Quem Somos"
-      const aboutImageUpload = cacheId('about-image-upload');
-      const aboutImgPreview = cacheId('about-img-preview');
-      const aboutImageUploadBtn = cacheId('about-image-upload-btn');
-      const aboutText1Input = cacheId('about-text-1-input');
-      const aboutText2Input = cacheId('about-text-2-input');
-      const aboutSaveBtn = cacheId('about-save-btn');
-      let selectedAboutImageBase64 = config.about_image_base64 || '';
-
-      aboutImageUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-          alert('Por favor selecione uma imagem válida.');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          selectedAboutImageBase64 = event.target.result;
-          aboutImgPreview.innerHTML = `<img src="${selectedAboutImageBase64}" alt="About preview" />`;
-        };
-        reader.readAsDataURL(file);
-      });
-
-      aboutImageUploadBtn.addEventListener('click', function() {
-        if (!selectedAboutImageBase64) {
-          alert('Por favor selecione uma imagem primeiro.');
-          return;
-        }
-        config.about_image_base64 = selectedAboutImageBase64;
-        try {
-          localStorage.setItem('iap_config_v1', JSON.stringify(config));
-        } catch (e) {
-          alert('Erro ao salvar a imagem.');
-          return;
-        }
-        updateAboutSection(config);
-        alert('Imagem "Quem Somos" atualizada com sucesso!');
-      });
-
-      aboutSaveBtn.addEventListener('click', function() {
-        const text1 = aboutText1Input.value || defaultConfig.about_text_1;
-        const text2 = aboutText2Input.value || defaultConfig.about_text_2;
-        config.about_text_1 = sanitizeText(text1);
-        config.about_text_2 = sanitizeText(text2);
-        try {
-          localStorage.setItem('iap_config_v1', JSON.stringify(config));
-        } catch (e) {
-          alert('Erro ao salvar os textos.');
-          return;
-        }
-        updateAboutSection(config);
-        alert('Conteúdo "Quem Somos" atualizado com sucesso!');
-      });
-
-      function openOverlay() {
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        passwordInput && passwordInput.focus();
-      }
-
-      function closeOverlay() {
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-        loginSection.style.display = '';
-        panelSection.style.display = 'none';
-        if (passwordInput) passwordInput.value = '';
-      }
-
-      function showPanel() {
+    loginBtn.addEventListener('click', () => {
+      if (passwordInput.value === DEMO_PASSWORD) {
         loginSection.style.display = 'none';
         panelSection.style.display = '';
-        EVENT_KEYS.forEach((k) => {
-          const base = k;
-          const titleKey = base + '_title';
-          const descKey = base + '_desc';
-          const dateKey = base + '_date';
-          if (inputs[titleKey]) inputs[titleKey].value = config[titleKey] || defaultConfig[titleKey] || '';
-          if (inputs[descKey]) inputs[descKey].value = config[descKey] || defaultConfig[descKey] || '';
-          if (inputs[dateKey]) inputs[dateKey].value = config[dateKey] || defaultConfig[dateKey] || '';
-        });
-        if (config.logo_base64) {
-          logoPreview.innerHTML = `<img src="${config.logo_base64}" alt="Current logo" />`;
+        document.getElementById('about-text-1-input').value = config.about_text_1;
+        document.getElementById('about-text-2-input').value = config.about_text_2;
+        document.getElementById('event1-title-input').value = config.event1_title;
+        document.getElementById('event1-desc-input').value = config.event1_desc;
+        document.getElementById('event1-date-input').value = config.event1_date;
+        document.getElementById('event2-title-input').value = config.event2_title;
+        document.getElementById('event2-desc-input').value = config.event2_desc;
+        document.getElementById('event2-date-input').value = config.event2_date;
+        document.getElementById('event3-title-input').value = config.event3_title;
+        document.getElementById('event3-desc-input').value = config.event3_desc;
+        document.getElementById('event3-date-input').value = config.event3_date;
+        document.getElementById('sunday-input').value = config.sunday_service;
+        document.getElementById('wednesday-input').value = config.wednesday_service;
+        document.getElementById('saturday-input').value = config.saturday_service;
+      } else {
+        alert('Senha incorreta');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      loginSection.style.display = '';
+      panelSection.style.display = 'none';
+      passwordInput.value = '';
+    });
+
+    // Logo Upload
+    let logoFile = null;
+    document.getElementById('logo-upload').addEventListener('change', (e) => {
+      logoFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById('logo-preview').innerHTML = `<img src="${event.target.result}" />`;
+      };
+      reader.readAsDataURL(logoFile);
+    });
+
+    document.getElementById('logo-upload-btn').addEventListener('click', async () => {
+      if (!logoFile) {
+        alert('Selecione uma imagem');
+        return;
+      }
+      const btn = document.getElementById('logo-upload-btn');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      const url = await uploadImageToFirebase(logoFile, 'logos');
+      if (url) {
+        config.logo_base64 = url;
+        if (await saveConfigToFirebase()) {
+          applyConfigToDom();
+          alert('✅ Logo salva com sucesso!');
         }
-        if (config.about_image_base64) {
-          aboutImgPreview.innerHTML = `<img src="${config.about_image_base64}" alt="Current about image" />`;
+      }
+      btn.disabled = false;
+      btn.textContent = 'Salvar Logo no Firebase';
+    });
+
+    // About Image Upload
+    let aboutFile = null;
+    document.getElementById('about-image-upload').addEventListener('change', (e) => {
+      aboutFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById('about-img-preview').innerHTML = `<img src="${event.target.result}" />`;
+      };
+      reader.readAsDataURL(aboutFile);
+    });
+
+    document.getElementById('about-image-upload-btn').addEventListener('click', async () => {
+      if (!aboutFile) {
+        alert('Selecione uma imagem');
+        return;
+      }
+      const url = await uploadImageToFirebase(aboutFile, 'about');
+      if (url) {
+        config.about_image_base64 = url;
+        if (await saveConfigToFirebase()) {
+          applyConfigToDom();
+          alert('✅ Imagem "Quem Somos" salva!');
         }
-        aboutText1Input.value = config.about_text_1 || defaultConfig.about_text_1;
-        aboutText2Input.value = config.about_text_2 || defaultConfig.about_text_2;
       }
+    });
 
-      if (adminBtn) adminBtn.addEventListener('click', openOverlay);
-      if (cancelBtn) cancelBtn.addEventListener('click', closeOverlay);
-
-      if (loginBtn) {
-        loginBtn.addEventListener('click', function () {
-          const pass = passwordInput ? passwordInput.value : '';
-          if (!pass) {
-            alert('Por favor insira a senha administrativa.');
-            return;
-          }
-          if (pass === DEMO_ADMIN_PASSWORD) {
-            showPanel();
-          } else {
-            alert('Senha incorreta.');
-            passwordInput.value = '';
-          }
-        });
+    // Save All
+    document.getElementById('admin-save-btn').addEventListener('click', async () => {
+      config.about_text_1 = document.getElementById('about-text-1-input').value;
+      config.about_text_2 = document.getElementById('about-text-2-input').value;
+      config.event1_title = document.getElementById('event1-title-input').value;
+      config.event1_desc = document.getElementById('event1-desc-input').value;
+      config.event1_date = document.getElementById('event1-date-input').value;
+      config.event2_title = document.getElementById('event2-title-input').value;
+      config.event2_desc = document.getElementById('event2-desc-input').value;
+      config.event2_date = document.getElementById('event2-date-input').value;
+      config.event3_title = document.getElementById('event3-title-input').value;
+      config.event3_desc = document.getElementById('event3-desc-input').value;
+      config.event3_date = document.getElementById('event3-date-input').value;
+      config.sunday_service = document.getElementById('sunday-input').value;
+      config.wednesday_service = document.getElementById('wednesday-input').value;
+      config.saturday_service = document.getElementById('saturday-input').value;
+      
+      if (await saveConfigToFirebase()) {
+        applyConfigToDom();
+        alert('✅ Tudo salvo com sucesso!');
       }
+    });
 
-      const saveBtn = cacheId('admin-save-btn');
-      if (saveBtn) {
-        saveBtn.addEventListener('click', function () {
-          EVENT_KEYS.forEach(k => {
-            const titleKey = k + '_title';
-            const descKey = k + '_desc';
-            const dateKey = k + '_date';
-            if (inputs[titleKey]) config[titleKey] = sanitizeText(inputs[titleKey].value) || defaultConfig[titleKey];
-            if (inputs[descKey]) config[descKey] = sanitizeText(inputs[descKey].value) || defaultConfig[descKey];
-            if (inputs[dateKey]) config[dateKey] = sanitizeText(inputs[dateKey].value) || defaultConfig[dateKey];
-          });
-          try {
-            localStorage.setItem('iap_config_v1', JSON.stringify(config));
-          } catch (e) {
-            console.warn('Falha ao salvar config', e);
-          }
-          applyConfigToDom(config);
-          alert('Eventos atualizados com sucesso!');
-          closeOverlay();
-        });
-      }
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
 
-      const logoutBtn = cacheId('admin-logout-btn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', closeOverlay);
-      }
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      menuOverlay.classList.remove('hidden');
+    });
 
-      overlay && overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) closeOverlay();
+    closeMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuOverlay.classList.add('hidden');
+    });
+
+    menuOverlay.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuOverlay.classList.add('hidden');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuOverlay.classList.add('hidden');
       });
+    });
 
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && overlay && overlay.classList.contains('open')) {
-          closeOverlay();
-        }
-      });
-    })();
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        loginSection.style.display = '';
+        panelSection.style.display = 'none';
+      }
+    });
 
-    updateWhatsAppLinks(config);
-  })();
+    // Carregar config ao iniciar
+    loadConfigFromFirebase();
   </script>
-
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d8c6c4a25f302d8',t:'MTc3MjkxNjEwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
  </body>
 </html>
